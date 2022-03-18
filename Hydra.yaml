@@ -1,0 +1,746 @@
+openapi: 3.1.0
+info:
+  title: Hydra
+  version: '1.0'
+  contact:
+    name: Robert Parelius
+    email: robert.parelius@sscinc.com
+  description: All strings are glob supported. e.g. hostname=wcd* matches all devices w/ hostnames starting with wcd.
+  summary: API for Hydra v2
+servers:
+  - url: 'https://hydra.ssnc-corp.cloud/api/v1'
+paths:
+  /device:
+    get:
+      summary: Retrieve Device
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      - cred_id: CRED_1
+                        enabled: true
+                        hostname: wcdlf104-mgmt
+                        icmp_exporter: null
+                        id: 1882
+                        mgmt_ip: 10.42.131.104
+                        model: as4610
+                        os: Cumulus
+                        override_groups: []
+                        properties: null
+                        serial_no: ''
+                        snmp_enabled: false
+                        snmp_exporter: 3
+                        snmp_group: dst
+                        snmp_interval: 1
+                        snmp_status: true
+                        ssh_enabled: true
+                        ssh_type: linux
+                        tags:
+                          - cumulus
+                          - exporter
+                        type: Application Switch
+                        vendor: HPE
+                        version: 4.1.0-cl-7-amd64
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    items:
+                      type: object
+                      properties:
+                        cred_id:
+                          type: string
+                          minLength: 1
+                          example: CRED_1
+                          maxLength: 255
+                        enabled:
+                          type: boolean
+                          default: true
+                        hostname:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          example: wcdlf104-mgmt
+                        icmp_exporter:
+                          type: integer
+                          example: 2
+                        id:
+                          type: integer
+                          example: 1882
+                          readOnly: true
+                        mgmt_ip:
+                          type: string
+                          minLength: 1
+                          format: ipv4
+                          example: 10.42.131.104
+                        model:
+                          type: string
+                          minLength: 1
+                          example: as4610
+                          maxLength: 255
+                        os:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          example: Cumulus
+                        override_groups:
+                          type: array
+                          items: {}
+                        properties:
+                          type: object
+                        serial_no:
+                          type: string
+                          example: FJC1945D12G
+                          minLength: 1
+                          maxLength: 255
+                        snmp_enabled:
+                          type: boolean
+                          default: true
+                        snmp_exporter:
+                          type: integer
+                          example: 3
+                        snmp_group:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          example: dst
+                        snmp_interval:
+                          type: integer
+                          example: 1
+                        snmp_status:
+                          type: boolean
+                        ssh_enabled:
+                          type: boolean
+                          default: true
+                        ssh_type:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          example: linux
+                        tags:
+                          type: array
+                          items: {}
+                        type:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          example: Application Switch
+                        vendor:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          example: HPE
+                        version:
+                          type: string
+                          minLength: 1
+                          example: 4.1.0-cl-7-amd64
+                          maxLength: 255
+                      required:
+                        - cred_id
+                        - enabled
+                        - hostname
+                        - id
+                        - mgmt_ip
+                        - model
+                        - os
+                        - serial_no
+                        - snmp_enabled
+                        - snmp_exporter
+                        - snmp_group
+                        - snmp_interval
+                        - snmp_status
+                        - ssh_enabled
+                        - ssh_type
+                        - tags
+                        - type
+                        - vendor
+                        - version
+                required:
+                  - data
+              examples:
+                Common:
+                  value:
+                    data:
+                      - cred_id: CRED_1
+                        enabled: true
+                        hostname: wcdlf104-mgmt
+                        icmp_exporter: 2
+                        id: 1882
+                        mgmt_ip: 10.42.131.104
+                        model: as4610
+                        os: Cumulus
+                        override_groups: []
+                        properties: {}
+                        serial_no: FJC1945D12G
+                        snmp_enabled: false
+                        snmp_exporter: 3
+                        snmp_group: dst
+                        snmp_interval: 1
+                        snmp_status: true
+                        ssh_enabled: true
+                        ssh_type: linux
+                        tags:
+                          - cumulus
+                          - exporter
+                        type: Application Switch
+                        vendor: HPE
+                        version: 4.1.0-cl-7-amd64
+                'No match ':
+                  value:
+                    data: []
+        '400':
+          $ref: '#/components/responses/400-Response'
+      operationId: get-device
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: hostname
+        - schema:
+            type: boolean
+          in: query
+          name: enabled
+        - schema:
+            type: integer
+          in: query
+          name: id
+        - schema:
+            type: string
+            format: ipv4
+          in: query
+          name: mgmt_ip
+        - schema:
+            type: string
+          in: query
+          name: cred_id
+        - schema:
+            type: string
+          in: query
+          name: serial_no
+        - schema:
+            type: string
+          in: query
+          name: type
+        - schema:
+            type: boolean
+          in: query
+          name: snmp_enabled
+        - schema:
+            type: boolean
+          in: query
+          name: ssh_enabled
+        - schema:
+            type: string
+          in: query
+          name: vendor
+        - schema:
+            type: string
+          in: query
+          name: os
+        - $ref: '#/components/parameters/fields'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/order_by'
+        - $ref: '#/components/parameters/start'
+        - $ref: '#/components/parameters/ssh_type'
+      description: CRUD interface for devices table
+    parameters: []
+    post:
+      summary: Add New Device
+      operationId: post-device
+      responses:
+        '200':
+          $ref: '#/components/responses/CUD-Response'
+      description: Use this endpoint to create a new device for Hydra to monitor.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 586
+                  description: The id to use in the DB table. This is NOT required and in most cases shouldn't be included.
+                hostname:
+                  type: string
+                  description: The hostname of the device.
+                  example: wcdlf104-mgmt
+                mgmt_ip:
+                  type: string
+                  format: ipv4
+                  example: 10.234.2.70
+                  description: The management IP of the device.
+                vendor:
+                  type: string
+                  example: Cisco
+                  description: 'The vendor that manufactures the device. '
+                model:
+                  type: string
+                  example: ASR1001-X
+                  description: The model of the device.
+                os:
+                  type: string
+                  example: Cisco IOS
+                  description: The operating system the device runs.
+                ssh_type:
+                  type: string
+                  example: cisco_ios
+                  description: The command line syntax to use on the device.
+                version:
+                  type: string
+                  example: 15.5(3)S8
+                  description: The OS Version running on the device.
+                type:
+                  type: string
+                  example: Router
+                  description: 'The type of device (Router, Switch, Load Balancer, etc).'
+                enabled:
+                  type: boolean
+                  default: true
+                  description: Enable/Disable device in Hydra.
+              required:
+                - hostname
+                - mgmt_ip
+                - vendor
+                - model
+                - os
+            examples:
+              Common:
+                value:
+                  hostname: wcdlf104-mgmt
+                  mgmt_ip: 10.234.2.70
+                  vendor: Cisco
+                  model: ASR1001-X
+                  os: Cisco IOS
+                  type: Router
+        description: ''
+  /command:
+    get:
+      summary: Retrieve commands
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      - args:
+                          command: show ip bgp sum
+                          delay_factor: 5
+                          template: bgp_sum
+                        backends:
+                          timescale: {}
+                        description: null
+                        enabled: true
+                        engine: netmiko
+                        group: null
+                        id: 301
+                        interval: 15
+                        limit_to:
+                          - test
+                        method: send_command
+                        name: bgp_sum
+                        processors:
+                          default: {}
+                        ssh: true
+                        ssh_type: cisco_ios
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    items:
+                      type: object
+                      properties:
+                        args:
+                          type: object
+                          properties:
+                            command:
+                              type: string
+                              minLength: 1
+                              description: This is the command that will be executed on the device.
+                              example: show ip bgp sum
+                            delay_factor:
+                              type: integer
+                              description: How long to wait after running cmd.
+                              example: 5
+                            template:
+                              type: string
+                              minLength: 1
+                              description: Name of template to use for cmd.
+                              example: bgp_sum
+                          required:
+                            - command
+                            - delay_factor
+                            - template
+                        backends:
+                          type: object
+                          description: 'Which backend to use (ELK, TS, etc). Can be multiple.'
+                        description:
+                          type: string
+                          description: Description of what the cmd does.
+                          example: Gets bgp neighbors.
+                        enabled:
+                          type: boolean
+                          description: Defines if this cmd is disabled/enabled to run on devices.
+                          default: true
+                        engine:
+                          type: string
+                          minLength: 1
+                          example: netmiko
+                          description: The engine that handles communicating with the device.
+                        group:
+                          type: string
+                        id:
+                          type: integer
+                          example: 349
+                          description: DB table id of cmd.
+                        interval:
+                          type: integer
+                          description: How often the cmd is ran on devices in min.
+                          example: 15
+                        limit_to:
+                          type: array
+                          items: {}
+                        method:
+                          type: string
+                          minLength: 1
+                          example: send_command
+                        name:
+                          type: string
+                          minLength: 1
+                          description: The name of the cmd in the DB table.
+                          example: bgp_sum
+                        processors:
+                          type: object
+                        ssh:
+                          type: boolean
+                        ssh_type:
+                          type: string
+                          minLength: 1
+                          example: cisco_ios
+                          description: The command line syntax to use on the device.
+                      required:
+                        - enabled
+                        - engine
+                        - id
+                        - interval
+                        - limit_to
+                        - method
+                        - name
+                        - ssh
+                        - ssh_type
+                required:
+                  - data
+              examples:
+                Common:
+                  value:
+                    data:
+                      - args:
+                          command: show ip bgp sum
+                          delay_factor: 5
+                          template: bgp_sum
+                        backends:
+                          timescale: {}
+                        description: 'null'
+                        enabled: true
+                        engine: netmiko
+                        group: 'null'
+                        id: 301
+                        interval: 15
+                        limit_to:
+                          - test
+                        method: send_command
+                        name: bgp_sum
+                        processors:
+                          default: {}
+                        ssh: true
+                        ssh_type: cisco_ios
+        '400':
+          $ref: '#/components/responses/400-Response'
+      operationId: get-command
+      description: 'CRUD interface for commands table, global store of commands to be run'
+      parameters:
+        - schema:
+            type: integer
+            minimum: 1
+            example: 350
+          in: query
+          name: id
+        - schema:
+            type: string
+            example: ip_bgp
+          in: query
+          name: name
+        - schema:
+            type: string
+          in: query
+          name: description
+        - schema:
+            type: string
+            example: netmiko
+          in: query
+          name: engine
+        - schema:
+            type: string
+            example: send_command
+          in: query
+          name: method
+        - schema:
+            type: integer
+            example: 15
+          in: query
+          name: interval
+        - schema:
+            type: boolean
+            example: true
+          in: query
+          name: enabled
+        - schema:
+            type: array
+            example:
+              - exporter
+          in: query
+          name: limit_to
+        - schema:
+            type: boolean
+            example: true
+          in: query
+          name: ssh
+        - $ref: '#/components/parameters/fields'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/order_by'
+        - $ref: '#/components/parameters/start'
+        - $ref: '#/components/parameters/ssh_type'
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-command
+      responses:
+        '200':
+          $ref: '#/components/responses/CUD-Response'
+      description: Use this endpoint to create a new cmd for Hydra to run on devices.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  args:
+                    command: show ip bgp sum
+                    delay_factor: 5
+                    template: bgp_sum
+                  backends:
+                    timescale: {}
+                  description: null
+                  enabled: true
+                  engine: netmiko
+                  group: null
+                  id: 301
+                  interval: 15
+                  limit_to:
+                    - test
+                  method: send_command
+                  name: bgp_sum
+                  processors:
+                    default: {}
+                  ssh: true
+                  ssh_type: cisco_ios
+              properties:
+                args:
+                  type: object
+                  required:
+                    - command
+                    - delay_factor
+                    - template
+                  properties:
+                    command:
+                      type: string
+                      minLength: 1
+                      description: The command to be executed on devices.
+                    delay_factor:
+                      type: integer
+                      description: How long to wait after running cmd.
+                      example: 5
+                    template:
+                      type: string
+                      minLength: 1
+                      example: bgp_sum
+                      description: Name of template to use for cmd.
+                backends:
+                  type: object
+                  description: 'Which backend to use (ELK, TS, etc). Can be multiple.'
+                description:
+                  type: string
+                  description: Description of what the cmd does.
+                  example: Gets bgp neighbors.
+                enabled:
+                  type: boolean
+                  description: Defines if this cmd is disabled/enabled to run on devices.
+                  default: true
+                engine:
+                  type: string
+                  minLength: 1
+                  example: netmiko
+                  description: The engine that handles communicating with the device.
+                group:
+                  type: string
+                id:
+                  type: integer
+                  description: ID to be used in DB table. In most cases you do NOT need to include this.
+                  example: 301
+                interval:
+                  type: integer
+                  description: How often the cmd is ran on devices in min.
+                  example: 15
+                limit_to:
+                  type: array
+                  items: {}
+                method:
+                  type: string
+                  minLength: 1
+                  example: send_command
+                name:
+                  type: string
+                  minLength: 1
+                  description: The name of the cmd in the DB table.
+                  example: bgp_sum
+                processors:
+                  type: object
+                ssh:
+                  type: boolean
+                ssh_type:
+                  type: string
+                  minLength: 1
+                  example: cisco_ios
+                  description: The command line syntax to use on the device.
+              required:
+                - args
+                - engine
+                - interval
+                - name
+                - ssh
+                - ssh_type
+            examples:
+              Common:
+                value:
+                  args:
+                    command: string
+                    delay_factor: 5
+                    template: bgp_sum
+                  engine: netmiko
+                  interval: 15
+                  name: bgp_sum
+                  ssh: true
+                  ssh_type: cisco_ios
+        description: ''
+components:
+  schemas: {}
+  securitySchemes:
+    Authorize:
+      type: http
+      scheme: basic
+      description: Use AD (your dt user) creds.
+  requestBodies: {}
+  parameters:
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: array
+        example:
+          - hostname
+          - mgmt_ip
+      description: specify which fields to return
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        example: 1
+      description: limit the number of results
+    order_by:
+      name: order_by
+      in: query
+      required: false
+      schema:
+        type: string
+        example: 'hostname:desc'
+      description: 'order the output. Format - <column>:<asc (default) | desc>'
+    start:
+      name: start
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        example: 10
+      description: allows pagination of output by specifying a starting point. used in conjunction w/ limit
+    ssh_type:
+      name: ssh_type
+      in: query
+      required: false
+      schema:
+        type: string
+        example: cisco_ios
+      description: The command line syntax to use on the device.
+  responses:
+    CUD-Response:
+      description: 'Example response when creating, updating, or deleting from tables.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: This is the id for the entity in the DB table.
+                example: 1882
+            required:
+              - id
+          examples:
+            Common:
+              value:
+                id: 1882
+    400-Response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                error: 'invalid data-type given for parameter: id. received <class ''str''>, expected <class ''int''>'
+            properties:
+              error:
+                type: string
+                minLength: 1
+                example: 'invalid data-type given for parameter: id. received <class ''str''>, expected <class ''int''>'
+            required:
+              - error
+          examples:
+            Invalid Parameter:
+              value:
+                error: 'invalid parameter: hostnae. does not exist in table(s): [''devices'']'
+            Invalid Data-Type:
+              value:
+                error: 'invalid data-type given for parameter: id. received <class ''str''>, expected <class ''int''>'
+security:
+  - LDAP Creds: []
